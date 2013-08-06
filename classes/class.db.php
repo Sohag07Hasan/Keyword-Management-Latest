@@ -113,6 +113,9 @@ class JfKeywordDb{
 		return $this->keyword;
 	}
 	
+	function get_keyword_meta_table(){
+		return $this->keyword_meta;
+	}
 	
 	//delete a keyword
 	function delete_keyword($keyword_id){
