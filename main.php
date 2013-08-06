@@ -11,4 +11,7 @@ define("JFKEYWORDMANAGEMENT_URL", plugins_url('/', __FILE__));
 include JFKEYWORDMANAGEMENT_DIR . 'classes/class.keyword.management.php';
 JfKeywordManagement::init();
 
+include JFKEYWORDMANAGEMENT_DIR . 'classes/class.using_keywords.php';
+JfKeywordUsing::init();
+
 ?>
