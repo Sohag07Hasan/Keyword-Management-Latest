@@ -75,8 +75,8 @@ class JfKeywordDb{
 		extract($posted, EXTR_SKIP);
 		$updated = $this->db->update($this->keyword, array('keyword' => $keyword, 'priority' => $priority), array('id' => $id), array('%s', '%d'), array('%d'));
 		
-		var_dump($posted);
-		var_dump($updated);
+		//var_dump($posted);
+		//var_dump($updated);
 		
 		if($updated){
 			return $posted['id'];

@@ -66,7 +66,7 @@
 		}
 	?>
 	
-	<p style="color: green; font-size: 16px;">Please find the sample csv inside the plguin directory. Please keep the first row identical</p>
+	<p style="color: green; font-size: 16px;">Please find the sample csv inside the plguin directory. Every row sould have keywrod,priority</p>
 	
 	<form action="" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="csv_keyword_parser" value="y" />
