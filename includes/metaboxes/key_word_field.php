@@ -13,8 +13,20 @@
 	  }
 </style>
 
+<?php 
+	$KwDb = JfKeywordManagement::get_db_instance();
+	$relation = $KwDb->get_relationship_by('post_id', $post->ID);
+	$keyword = $KwDb->get_keyword($relation->keyword_id);
+	if($keyword){
+		$keyword_text = ucwords($keyword->keyword) . ' ~ ' . $keyword->id;
+	}
+	else{
+		$keyword_text = '';
+	}
+?>
+
 <div class="wrap">
-	<p><input placeholder="Keyword" style="width: 100%; font-size: 16px;" id="unique_keyword" type="text" name="keyword_keyword" value="<?php echo get_post_meta($post->ID, '_keyword_keyword', true); ?>" /></p>
+	<p><input placeholder="Keyword" style="width: 100%; font-size: 16px;" id="unique_keyword" type="text" name="keyword_keyword" value="<?php echo $keyword_text; ?>" /></p>
 </div>
 
 <!-- extra input fields to hold the previous entries of keyword -->

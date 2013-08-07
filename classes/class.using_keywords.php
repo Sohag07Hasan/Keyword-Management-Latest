@@ -65,7 +65,16 @@ class JfKeywordUsing{
 	//save the keyword with post
 	static function attach_the_keyword_with_post($post_id, $post){
 		if(!wp_is_post_revision( $post_id )){
-			if(isset($_POST['keyword_keyword'])){
+			if(isset($_POST['keyword_keyword']) && !empty($_POST['keyword_keyword'])){
+				$key = explode(' ~ ', $_POST['keyword_keyword']);
+				$keyword_name = trim($key[0]);
+				
+				$KwDb = JfKeywordManagement::get_db_instance();
+				$keyword = $KwDb->get_keyword_by_keyword($keyword_name);
+				
+				//$KwDb->remove_previous_relations_by('keyword_id', $keyword->id);
+				//$KwDb->remove_previous_relations_by('post_id', $post_id);
+				$KwDb->add_new_relations($keyword->id, $post_id);
 				
 			}
 		}

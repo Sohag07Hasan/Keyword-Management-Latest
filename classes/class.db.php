@@ -92,6 +92,12 @@ class JfKeywordDb{
 		return $this->db->get_row("select * from $this->keyword where id = '$keyword_id'");
 	}
 	
+	//get keyword by keyword name
+	function get_keyword_by_keyword($keywrod = ''){
+		$keywrod = strtolower($keywrod);
+		return $this->db->get_row("select * from $this->keyword where lower(keyword) like '$keywrod' limit 1");
+	}
+	
 	//get all the keywords for csv
 	function get_keywords_for_csv(){
 		return $this->db->get_results("select * from $this->keyword");
@@ -137,5 +143,26 @@ class JfKeywordDb{
 	//keyword exists
 	function keyword_exists($keyword){
 		return $this->db->get_var("select id from $this->keyword where keyword like '$keyword'");
+	}
+	
+	
+	//add new relations
+	function add_new_relations($keyword_id, $post_id){
+		$this->remove_previous_relations_by('keyword_id', $keyword_id);
+		$this->remove_previous_relations_by('post_id', $post_id);
+		
+		$this->db->insert($this->keyword_meta, array('keyword_id' => $keyword_id, 'post_id' => $post_id), array('%d', '%d'));
+	}
+	
+	
+	//remove previous relations
+	function remove_previous_relations_by($type, $id){
+		$this->db->query("delete from $this->keyword_meta where $type = '$id'");
+	}
+	
+	
+	//retun the relation
+	function get_relationship_by($type, $id){
+		return $this->db->get_row("select * from $this->keyword_meta where $type = '$id'");
 	}
 }
