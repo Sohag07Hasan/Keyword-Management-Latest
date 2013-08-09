@@ -56,6 +56,7 @@ jQuery(function($) {
                 //now setting the new keywords
                 $('#previous_keyword_keyword').val(title);
                 
+                /*
                 if(curr_title.length > 2){
                 	
                 	var prev_exploded = prev_title.split(' ');
@@ -70,6 +71,9 @@ jQuery(function($) {
                 	
                 	title += ' ' + curr_title;
                 }
+                */
+                
+                title = curr_title.replace(prev_title, title);
                 
                 //removing the placehoder
                 $('#title-prompt-text').attr('class', 'screen-reader-text');
