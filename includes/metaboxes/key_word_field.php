@@ -18,7 +18,7 @@
 	$relation = $KwDb->get_relationship_by('post_id', $post->ID);
 	$keyword = $KwDb->get_keyword($relation->keyword_id);
 	if($keyword){
-		$keyword_text = ucwords($keyword->keyword) . ' ~ ' . $keyword->id;
+		$keyword_text = ucwords($keyword->keyword) . ' ~ ' . $keyword->priority;
 	}
 	else{
 		$keyword_text = '';

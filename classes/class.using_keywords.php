@@ -17,6 +17,10 @@ class JfKeywordUsing{
 		add_action('admin_enqueue_scripts', array(get_class() , 'admin_enqueue_scripts'));
 		
 		add_action('save_post', array(get_class(), 'attach_the_keyword_with_post'), 10, 2);
+		
+		//unattach the keyword with post
+		add_action('trashed_post', array(get_class(), 'unattach_the_keyword'), 10, 1);
+		add_action('after_delete_post', array(get_class(), 'unattach_the_keyword'), 10, 1);
 	}
 	
 	
@@ -88,23 +92,45 @@ class JfKeywordUsing{
 	
 	
 	//save the keyword with post
-	static function attach_the_keyword_with_post($post_id, $post){
+	static function attach_the_keyword_with_post($post_id, $post){	
+		
 		if(!wp_is_post_revision( $post_id )){
+						
 			if(isset($_POST['keyword_keyword']) && !empty($_POST['keyword_keyword'])){
+							
 				$key = explode(' ~ ', $_POST['keyword_keyword']);
 				$keyword_name = trim($key[0]);
 				
 				$KwDb = JfKeywordManagement::get_db_instance();
 				$keyword = $KwDb->get_keyword_by_keyword($keyword_name);
+				if($keyword){								
+					return $KwDb->add_new_relations($keyword->id, $post_id);
+				}
 				
-				//$KwDb->remove_previous_relations_by('keyword_id', $keyword->id);
-				//$KwDb->remove_previous_relations_by('post_id', $post_id);
-				$KwDb->add_new_relations($keyword->id, $post_id);
+			}
+			elseif(isset($_POST['keyword_keyword']) && empty($_POST['keyword_keyword'])){
+				$KwDb = JfKeywordManagement::get_db_instance();
 				
+				$keyword_name = $post->post_title;
+				$keyword = $KwDb->get_keyword_by_keyword($keyword_name);
+				if(!$keyword){
+					$id = $KwDb->create_keyword(array('keyword' => $keyword_name, 'priority' => 10));
+					$keyword = $KwDb->get_keyword($id);
+				}
+				
+				if($keyword){
+					return $KwDb->add_new_relations($keyword->id, $post_id);
+				}
 			}
 		}
 	}
 	
+	
+	//un attach the post if a post get trashed or delted
+	static function unattach_the_keyword($post_id){
+		$KwDb = JfKeywordManagement::get_db_instance();
+		return $KwDb->remove_previous_relations_by('post_id', $post_id);
+	}
 	
 	
 	

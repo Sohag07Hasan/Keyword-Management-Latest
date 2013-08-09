@@ -29,7 +29,7 @@ else{
 		
 }
 
-$sql .= implode(' or ', $extra) . ' ) limit 0, 1000';
+$sql .= implode(' and ', $extra) . ' ) limit 0, 1000';
 
 $keywords = $KwDb->db->get_results($sql);
 
