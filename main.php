@@ -14,4 +14,8 @@ JfKeywordManagement::init();
 include JFKEYWORDMANAGEMENT_DIR . 'classes/class.using_keywords.php';
 JfKeywordUsing::init();
 
+
+//wrapper and utility
+include JFKEYWORDMANAGEMENT_DIR . 'utility/utility.php';
+
 ?>

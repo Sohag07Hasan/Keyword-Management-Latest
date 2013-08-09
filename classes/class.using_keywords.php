@@ -21,8 +21,16 @@ class JfKeywordUsing{
 		//unattach the keyword with post
 		add_action('trashed_post', array(get_class(), 'unattach_the_keyword'), 10, 1);
 		add_action('after_delete_post', array(get_class(), 'unattach_the_keyword'), 10, 1);
+		
+		//add_action('init', array(get_class(), 'test'));
 	}
 	
+	
+	function test(){
+		var_dump(cnc_get_the_keyword(98));
+		cnc_the_keyword(98);
+		exit;
+	}
 	
 	//positioning the meta boxes
 	static function positioning_the_meta_boxes(){
