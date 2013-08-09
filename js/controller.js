@@ -70,7 +70,10 @@ jQuery(function($) {
                 	
                 	title += ' ' + curr_title;
                 }
-                                
+                
+                //removing the placehoder
+                $('#title-prompt-text').attr('class', 'screen-reader-text');
+                
                 $("#title").val(title);
                 
             }

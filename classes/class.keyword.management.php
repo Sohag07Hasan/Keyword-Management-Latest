@@ -15,7 +15,7 @@ class JfKeywordManagement{
 	
 	//creating menu and submenu pages
 	static function admin_menu(){
-		add_menu_page('tf keyword management', 'KeyWords', 'manage_options', 'keyword_manager', array(get_class(), 'menu_page_keyword_management'));
+		add_menu_page('tf keyword management', 'KeyWords', 'manage_options', 'keyword_manager', array(get_class(), 'menu_page_keyword_management'), JfKeywordUsing::get_url('images/key.png'));
 		add_submenu_page('keyword_manager', ucwords('new or edit a keyword'), 'Add New', 'manage_options', 'addnew_keyword', array(get_class(), 'submenu_add_or_edit_keyword'));
 		add_submenu_page('keyword_manager', ucwords('import keywords'), 'Import', 'manage_options', 'import_keyword', array(get_class(), 'submenu_import_keywords'));
 		add_submenu_page('keyword_manager', ucwords('export keywords'), 'Export', 'manage_options', 'export_keyword', array(get_class(), 'submenu_export_keywords'));

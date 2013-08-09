@@ -100,7 +100,7 @@ class JfKeywordDb{
 	
 	//get all the keywords for csv
 	function get_keywords_for_csv(){
-		return $this->db->get_results("select * from $this->keyword");
+		return $this->db->get_results("select * from $this->keyword order by keyword asc");
 	}
 
 	

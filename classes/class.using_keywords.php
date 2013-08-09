@@ -8,11 +8,30 @@ class JfKeywordUsing{
 	
 	//constructor
 	static function init(){
+		//add metaboxes
 		add_action('add_meta_boxes', array(get_class(), 'add_new_meta_boxes'));
+		
+		//metabox position\
+		add_action('edit_form_after_title', array(get_class(), 'positioning_the_meta_boxes'));
+		
 		add_action('admin_enqueue_scripts', array(get_class() , 'admin_enqueue_scripts'));
 		
 		add_action('save_post', array(get_class(), 'attach_the_keyword_with_post'), 10, 2);
 	}
+	
+	
+	//positioning the meta boxes
+	static function positioning_the_meta_boxes(){
+		// Get the globals:
+		global $post, $wp_meta_boxes;
+		
+		// Output the "advanced" meta boxes:
+		do_meta_boxes(get_current_screen(), 'advanced', $post);
+		
+		// Remove the initial "advanced" meta boxes:
+		unset($wp_meta_boxes['post']['advanced']);
+	}
+	
 	
 	
 	//metabox addition
@@ -40,6 +59,7 @@ class JfKeywordUsing{
 	
 	//enqueue script and 
 	static function admin_enqueue_scripts(){
+		//auto complete jquery
 		wp_enqueue_script('jquery');
 		wp_register_script('keywords_auto_complete_js', self::get_url('asset/autocompleteui/jquery-ui-1.10.3.custom.min.js'), array('jquery'));
 		wp_enqueue_script('keywords_auto_complete_js');
@@ -49,6 +69,11 @@ class JfKeywordUsing{
 		wp_enqueue_script('keywords_auto_complete_controller_js');
 		wp_localize_script('keywords_auto_complete_controller_js', 'AjaxAutoComplete', array('ajax_url'=>self::get_url('ajax/autocomplete.php')));
 		
+		//controller css
+		wp_register_style('keywords_auto_complete_controller_css', self::get_url('css/keyword.css'));
+		wp_enqueue_style('keywords_auto_complete_controller_css');
+		
+		//auto complete css
 		wp_register_style('keywords_auto_complete_css', self::get_url('asset/autocompleteui/jquery-ui-1.10.3.custom.min.css'));
 		wp_enqueue_style('keywords_auto_complete_css'); 
 		
@@ -79,4 +104,8 @@ class JfKeywordUsing{
 			}
 		}
 	}
+	
+	
+	
+	
 }
