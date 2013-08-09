@@ -13,9 +13,12 @@ if(preg_match('#"(.*?)"#', $term, $b)){
 	$term = $b[1];
 	
 	$extra = array();
+	/*
 	$extra[] = "keyword like '% $term%'";
 	$extra[] = "keyword like '%$term %'";
 	$extra[] = "keyword like '% $term %'";
+	*/
+	$extra[] = sprintf("keyword REGEXP '[[:<:]]%s[[:>:]]'", $term);
 }
 else{
 	$terms = explode(' ', $term);
