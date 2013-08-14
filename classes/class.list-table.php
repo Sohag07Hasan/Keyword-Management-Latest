@@ -51,7 +51,8 @@ class JfKeywordListTable extends WP_List_Table{
 	function get_sortable_columns(){
 		$sortable_columns = array(
 				'keyword' => array('keyword', false),
-				'priority' => array('priority', false)
+				'priority' => array('priority', false),
+				'status' => array('keyword_id', false)
 		);
 	
 		return $sortable_columns;
@@ -78,8 +79,9 @@ class JfKeywordListTable extends WP_List_Table{
 	//collectes every information
 	function populate_table_data(){
 		$kw_table = $this->KwDb->get_keyword_table();
+		$kw_meta_table = $this->KwDb->get_keyword_meta_table();		
 		
-		$sql = "select * from $kw_table";
+		$sql = "select id, keyword, priority from $kw_table left join $kw_meta_table on $kw_table.id = $kw_meta_table.keyword_id ";
 		
 		if(isset($_REQUEST['s']) && !empty($_REQUEST['s'])){
 			$s = trim($_REQUEST['s']);
@@ -103,12 +105,13 @@ class JfKeywordListTable extends WP_List_Table{
 			foreach($keywords as $keyword){
 				
 				$is_used = $this->KwDb->is_used($keyword->id);
+				$permalink = get_permalink($is_used);
 				
 				$sanitized_keywords[] = array(
 					'id' => $keyword->id,
 					'keyword' => $keyword->keyword,
 					'priority' => $keyword->priority,
-					'status' => $is_used ? "Used" : "Not Used",
+					'status' => $is_used ? "<a target='_blank' href='$permalink'>$permalink</a>" : "",
 				);
 			}
 		}
@@ -181,8 +184,7 @@ class JfKeywordListTable extends WP_List_Table{
 	function handle_bulk_action(){
 		
 		//var_dump($_REQUEST['keyword_id']);
-		
-		$message = 0;
+		$count = 0;
 		if($this->current_action() == 'delete'){
 			$keyword_ids = $_REQUEST['keyword_id'];
 		
@@ -191,13 +193,15 @@ class JfKeywordListTable extends WP_List_Table{
 			}
 			
 			foreach($keyword_ids as $keyword_id){
-				$this->KwDb->delete_keyword($keyword_id);
+				if(!$this->KwDb->is_used($keyword_id)){
+					$this->KwDb->delete_keyword($keyword_id);
+					$count ++;
+				}
 			}
-			
-			$message = count($keyword_ids);			
+							
 		}
 		
-		return $message;
+		return $count;
 	}
 	
 }
