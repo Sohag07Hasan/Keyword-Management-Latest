@@ -1,4 +1,14 @@
 jQuery(function($) {
+	
+		/* make the metabox above the title bar */
+		
+		var metabox = $('#add_key_word_container').html();
+		if(metabox){
+			$('#add_key_word_container').html('');
+			$('#titlediv').before(metabox);
+			
+		}
+		
         
 		var cache = {};
         

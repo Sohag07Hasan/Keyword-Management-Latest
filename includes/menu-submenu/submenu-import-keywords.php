@@ -51,11 +51,6 @@
 	}
 ?>
 
-<style>
-	table.csvtable td{
-		padding: 15px;
-	}
-</style>
 <div class="wrap">
 	
 	<h2>CSV Importer for keywords</h2>

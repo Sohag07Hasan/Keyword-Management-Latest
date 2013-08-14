@@ -9,10 +9,13 @@ class JfKeywordUsing{
 	//constructor
 	static function init(){
 		//add metaboxes
-		add_action('add_meta_boxes', array(get_class(), 'add_new_meta_boxes'));
+		//add_action('add_meta_boxes', array(get_class(), 'add_new_meta_boxes'));
 		
 		//metabox position\
-		add_action('edit_form_after_title', array(get_class(), 'positioning_the_meta_boxes'));
+		//add_action('edit_form_after_title', array(get_class(), 'positioning_the_meta_boxes'));
+		
+		//keyword fields before title div
+		add_action('edit_form_after_title', array(get_class(), 'attach_meta_box_before_title'));
 		
 		add_action('admin_enqueue_scripts', array(get_class() , 'admin_enqueue_scripts'));
 		
@@ -44,6 +47,14 @@ class JfKeywordUsing{
 		unset($wp_meta_boxes['post']['advanced']);
 	}
 	
+	
+	//attach metabox before title 
+	static function attach_meta_box_before_title(){
+		global $post;
+		if($post->post_type == 'post'){
+			return self::key_word_field($post);
+		}
+	}
 	
 	
 	//metabox addition
