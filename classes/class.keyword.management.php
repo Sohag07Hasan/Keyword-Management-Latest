@@ -171,6 +171,8 @@ class JfKeywordManagement{
 	
 	//plgugin activation
 	static function manage_db(){
+		JfKeywordUsing::manage_keyword_capabilities();
+		
 		$KwDb = self::get_db_instance();
 		return $KwDb->sync_db();
 	}	

@@ -15,7 +15,7 @@ table.csvtable td{
  /* IE 6 doesn't support max-height
   * we use height instead, but this forces the menu to always be this tall
   */
- html .ui-autocomplete {
+ .ui-autocomplete {
    height: 300px;
  }
 

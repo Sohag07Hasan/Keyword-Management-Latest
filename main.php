@@ -2,6 +2,8 @@
 /**
  * Plugin Name: Keyword Management
  * Author: Mahibul Hasan
+ * Author uri: http://sohag07hasan.elance.com
+ * Description: Creates, manage keywords to make the post title unique
  * */
 
 define("JFKEYWORDMANAGEMENT_FILE", __FILE__);

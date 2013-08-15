@@ -12,6 +12,9 @@
 ?>
 <div id="add_key_word_container">
 	<div id="add_key_word" class="postbox">
+		<h3 class="hndle">
+			<span>Keyword</span>
+		</h3>
 		<div class="inside">
 			<div class="wrap">
 				<p><input placeholder="Keyword" style="width: 100%; font-size: 16px;" id="unique_keyword" type="text" name="keyword_keyword" value="<?php echo $keyword_text; ?>" /></p>

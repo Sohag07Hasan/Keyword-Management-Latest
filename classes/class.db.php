@@ -148,8 +148,8 @@ class JfKeywordDb{
 	
 	//add new relations
 	function add_new_relations($keyword_id, $post_id){
-		$this->remove_previous_relations_by('keyword_id', $keyword_id);
-		$this->remove_previous_relations_by('post_id', $post_id);
+		//$this->remove_previous_relations_by('keyword_id', $keyword_id);
+		//$this->remove_previous_relations_by('post_id', $post_id);
 		
 		$this->db->insert($this->keyword_meta, array('keyword_id' => $keyword_id, 'post_id' => $post_id), array('%d', '%d'));
 	}

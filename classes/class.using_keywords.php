@@ -25,6 +25,15 @@ class JfKeywordUsing{
 		add_action('trashed_post', array(get_class(), 'unattach_the_keyword'), 10, 1);
 		add_action('after_delete_post', array(get_class(), 'unattach_the_keyword'), 10, 1);
 		
+		
+		//post save checking
+		add_action('admin_init', array(get_class(), 'before_post_saving'));
+		
+		
+		//show admin notices
+		add_action('admin_notices', array(get_class(), 'show_keyword_failed_notices'));
+		
+				
 		//add_action('init', array(get_class(), 'test'));
 	}
 	
@@ -51,7 +60,7 @@ class JfKeywordUsing{
 	//attach metabox before title 
 	static function attach_meta_box_before_title(){
 		global $post;
-		if($post->post_type == 'post'){
+		if($post->post_type == 'post' && current_user_can('use_keywords')){
 			return self::key_word_field($post);
 		}
 	}
@@ -152,5 +161,59 @@ class JfKeywordUsing{
 	}
 	
 	
+	/*
+	 * before post saving
+	 * */
+	static function before_post_saving(){
+		if(isset($_POST['keyword_keyword'])){
+			if(empty($_POST['keyword_keyword'])){
+								
+				$KwDb = JfKeywordManagement::get_db_instance();
+				
+				$keyword_name = $_POST['post_title'];
+				$keyword = $KwDb->get_keyword_by_keyword($keyword_name);
+				
+				$relation = $KwDb->get_relationship_by('keyword_id', $keyword->id);
+				if($relation){
+					if($relation->post_id == $_POST['post_ID']){
+						return;
+					}
+					else{
+						$sendback = $_POST['_wp_http_referer'];
+						$sendback = add_query_arg(array('message' => 15, 'keyword_status' => 'unattached'), $sendback);
+						
+						return JfKeywordManagement::do_redirect($sendback);
+					}
+				}
+			}
+		}
+	}
+	
+	
+	/**
+	 * if a keyword attahcment is failed show the message
+	 * */
+	static function show_keyword_failed_notices(){
+		if($_REQUEST['keyword_status'] == 'unattached'){
+			if($_REQUEST['message'] == '15'){
+				echo '<div class="updated"><p>Sorry! Keyword cannot be attached! Duplicate found</p></div>';
+			}
+		}
+	}
+	
+	
+	/**
+	 * Manage capabilities
+	 * */
+	static function manage_keyword_capabilities(){
+		$roles = array('administrator', 'editor', 'author');
+		foreach($roles as $r){
+			$role = get_role($r);
+			if($role){
+				$role->add_cap('use_keywords');
+			}
+		}
+				
+	}
 	
 }

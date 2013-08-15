@@ -92,4 +92,12 @@ jQuery(function($) {
                 
             }
         });
+        
+        /*
+        //submit button action
+        $('input#publish').bind('click', function(){
+        	alert('hello');
+        	return false;
+        });
+        */
     });
